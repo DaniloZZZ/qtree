@@ -512,32 +512,6 @@ def rz(parameters: [float], *qubits):
     return ZPhase(*qubits, alpha=parameters[0]/np.pi)
 
 
-class XPhase(ParametricGate):
-    """Arbitrary :math:`X` rotation
-    [[g·c, -i·g·s],
-    [-i·g·s, g·c]], where
-
-    c = cos(π·alpha/2), s = sin(π·alpha/2), g = exp(i·π·alpha/2).
-    """
-
-    _changes_qubits = (0, )
-
-    @staticmethod
-    def _gen_tensor(**parameters):
-        """Rotation along X axis"""
-        alpha = parameters['alpha']
-
-        c = np.cos(np.pi*alpha/2)
-        s = np.sin(np.pi*alpha/2)
-        g = np.exp(1j*np.pi*alpha/2)
-
-        return np.array([[g*c, -1j*g*s],
-                         [-1j*g*s, g*c]])
-
-    def cirq_op(self, x): return cirq.XPowGate(
-            exponent=float(self._parameters['alpha']))(x)
-
-
 def rx(parameters: [float], *qubits):
     """Arbitrary :math:`X` rotation"""
 
